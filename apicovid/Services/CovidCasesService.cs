@@ -18,7 +18,7 @@ namespace ApiCovid.Services
         //}
 
 
-        public IEnumerable<object> GetCountries()
+        public IEnumerable<CountryType> GetCountries()
         {
             try
             {
@@ -32,10 +32,9 @@ namespace ApiCovid.Services
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
 
-                    var p = JObject.Parse(jsonString);
+                    var data = JsonConvert.DeserializeObject<Data>(jsonString);
 
-                    return p.Root["Countries"];
-
+                    return data.Countries.Where(x => x.TotalActive > 0).OrderByDescending(x => x.TotalActive).Take(10).ToList();
                 }
             }
             catch (Exception ex)
@@ -44,7 +43,7 @@ namespace ApiCovid.Services
                 Console.WriteLine(ex);
             }
 
-            return new List<object>();
+            return new List<CountryType>();
         }        
 
     }

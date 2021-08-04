@@ -7,6 +7,6 @@ namespace ApiCovid.Services
 {
     public interface ICovidCasesService
     {
-        IEnumerable<object> GetCountries();
+        IEnumerable<CountryType> GetCountries();
     }
 }
